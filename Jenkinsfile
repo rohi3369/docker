@@ -1,0 +1,24 @@
+pipeline {
+    agent {label "docker"}
+    
+    stages{
+        stage('vcs'){
+            steps{
+                git branch: 'main', 
+               url: 'https://github.com/rohi3369/docker.git'
+                
+            }
+        }
+        
+        
+        stage('Build docker image'){
+            steps{
+                script{
+                    sh 'docker image build -t shop:1.0 -f Dockerfileshop'
+                }
+            }
+        }
+}
+}
+        
+ 
