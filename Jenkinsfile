@@ -14,7 +14,7 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker image build -t shop:1.0 -f Dockerfileshop'
+                    sh 'docker image build -t shop:1.0 .'
                 }
             }
         }
