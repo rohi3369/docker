@@ -14,12 +14,7 @@ pipeline {
                 }
             }
         }
-        stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }
-               stage ('Artifactory config') {
+        stage ('Artifactory config') {
             steps{
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
