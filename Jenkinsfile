@@ -7,16 +7,19 @@ pipeline {
             url: 'https://github.com/rohi3369/spring-petclinic.git'
             }
         }
-        stage ('Exec Maven') {
+        stage('SonarQube analysis') {
             steps {
-                rtMavenRun (
-                    tool: 'MAVEN_TOOL', 
-                    pom: 'pom.xml',
-                    goals: 'package'
-                    )
+                withSonarQubeEnv('SonarQube') {
+                    sh "mvn clean package sonar:sonar"
+                }
             }
         }
-        stage ('Artifactory config') {
+        stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+               stage ('Artifactory config') {
             steps{
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
@@ -26,6 +29,15 @@ pipeline {
                     )
             }
         }
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: 'MAVEN_TOOL', 
+                    pom: 'pom.xml',
+                    goals: 'package'
+                )
+            }
+        }
         stage ('Publish Build Info') {
             steps {
                 rtPublishBuildInfo (
@@ -33,13 +45,7 @@ pipeline {
                 )
             }
         }
-         stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh "mvn clean package sonar:sonar"
-                }
-            }
-        }
+         
         stage('docker image build'){
             agent any
             steps{
