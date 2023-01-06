@@ -48,7 +48,6 @@ pipeline {
         }
          
         stage('docker image build'){
-            agent any
             steps{
                 sh """
                 docker image build -t spc:1.0 .
