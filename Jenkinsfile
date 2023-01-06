@@ -44,7 +44,6 @@ pipeline {
             agent any
             steps{
                 sh """
-                sudo chmod 777 unix /var/run/docker.sock
                 docker image build -t spc:1.0 .
                 docker tag spc:1.0 soma3369.jfrog.io/spcimage/spc:1.0
                 docker push soma3369.jfrog.io/spcimage/spc:1.0"""  
