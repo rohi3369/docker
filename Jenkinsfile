@@ -14,12 +14,16 @@ pipeline {
                 }
             }
         }
+<<<<<<< HEAD
         // stage("Quality gate") {
         //     steps {
         //         waitForQualityGate abortPipeline: true
         //     }
         // }
                stage ('Artifactory config') {
+=======
+        stage ('Artifactory config') {
+>>>>>>> 9c6e93fb3470a854f5d58afbdd35a3da4a12d3de
             steps{
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
