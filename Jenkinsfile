@@ -34,8 +34,7 @@ pipeline {
                 rtMavenRun (
                     tool: 'MAVEN_TOOL', 
                     pom: 'pom.xml',
-                    goals: 'package',
-                    depolyerId: "MAVEN_DEPLOYER"
+                    goals: 'package'
                 )
             }
         }
