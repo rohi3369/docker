@@ -48,7 +48,7 @@ pipeline {
          stage('docker image build'){
             steps{
                 sh """
-                docker image build -t spc:1.0 -f Dockerfile
+                docker image build -t spc:1.0 .
                 docker tag spc:1.0 soma3369.jfrog.io/spcimage/spc:1.0
                 docker push soma3369.jfrog.io/spcimage/spc:1.0 """  
             }
