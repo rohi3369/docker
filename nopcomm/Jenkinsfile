@@ -1,6 +1,5 @@
 pipeline {
     agent {label 'mvn'}
-    triggers { pollSCM('* * * * *') }
     stages {
         stage ('vcs') {
             steps{
@@ -8,20 +7,17 @@ pipeline {
             url: 'https://github.com/rohi3369/spring-petclinic.git'
             }
         }
-        stage('SonarQube analysis') {
+        stage ('Exec Maven') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh "mvn clean package sonar:sonar"
-                }
+                rtMavenRun (
+                    tool: 'MAVEN_TOOL', 
+                    pom: 'pom.xml',
+                    goals: 'package'
+                    )
             }
         }
-        // stage("Quality gate") {
-        //     steps {
-        //         waitForQualityGate abortPipeline: true
-        //     }
-        // }
         stage ('Artifactory config') {
-           steps{
+            steps{
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
                     serverId: "Jfrogartifact",
@@ -30,15 +26,6 @@ pipeline {
                     )
             }
         }
-        // stage ('Exec Maven') {
-        //     steps {
-        //         rtMavenRun (
-        //             tool: 'MAVEN_TOOL', 
-        //             pom: 'pom.xml',
-        //             goals: 'package'
-        //         )
-        //     }
-        // }
         stage ('Publish Build Info') {
             steps {
                 rtPublishBuildInfo (
@@ -46,12 +33,20 @@ pipeline {
                 )
             }
         }
-         stage('docker image build'){
+         stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "mvn clean package sonar:sonar"
+                }
+            }
+        }
+        stage('docker image build'){
+            agent any
             steps{
                 sh """
-                docker image build -t spc:-$env.BUILD_ID .
-                docker tag spc:1.0 soma3369.jfrog.io/spcimage/spc:-$env.BUILD_ID
-                docker push soma3369.jfrog.io/spcimage/spc:-$env.BUILD_ID """  
+                docker image build -t spc:1.0 
+                docker tag spc:1.0 soma3369.jfrog.io/spcimage/spc:1.0 .
+                docker push soma3369.jfrog.io/spcimage/spc:1.0"""  
             }
         }
     } 

@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: service 
+metadata:
+  name: spc-service
+  labels:
+    app: spc
+spec:
+  type: LoadBalancer  
+  selector: 
+    app: spc
+  ports:
+   - name: spc-port
+     port: 32000
+     targetPort: 8080
+     protocol: TCP
+

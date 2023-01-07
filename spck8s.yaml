@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spc
+  labels:
+    app: spc
+spec:
+  selector:
+    matchLabels:
+      app: spc
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: spc
+    spec:
+      containers:
+        - name: spc
+          image:
+      command: 
+        - java
+        - jar
+        - spring-petclinic-2.7.3.jar
+      ports:
+        - containerPort: 8080
+          protocal: TCP
+          name:  spc
+        
