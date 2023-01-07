@@ -8,13 +8,6 @@ pipeline {
             url: 'https://github.com/rohi3369/spring-petclinic.git'
             }
         }
-        stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh "mvn clean package sonar:sonar"
-                }
-            }
-        }
         // stage("Quality gate") {
         //     steps {
         //         waitForQualityGate abortPipeline: true
@@ -45,6 +38,13 @@ pipeline {
                 rtPublishBuildInfo (
                     serverId: "Jfrogartifact"
                 )
+            }
+        }
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "mvn clean package sonar:sonar"
+                }
             }
         }
          stage('docker image build'){
