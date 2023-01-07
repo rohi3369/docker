@@ -6,4 +6,4 @@ RUN git clone https://github.com/rohi3369/spring-petclinic.git && \
 FROM openjdk:11
 COPY --from=build /spring-petclinic/target/spring-petclinic-2.7.3.jar /spring-petclinc-2.7.3.jar
 EXPOSE 8080
-CMD [ "java", "-jar", "springpetclinic-2.7.3.jar" ]                                
+CMD [ "java", "-jar", "spring-petclinic-2.7.3.jar" ]                                
