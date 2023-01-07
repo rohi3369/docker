@@ -29,15 +29,15 @@ pipeline {
                     )
             }
         }
-        stage ('Exec Maven') {
-            steps {
-                rtMavenRun (
-                    tool: 'MAVEN_TOOL', 
-                    pom: 'pom.xml',
-                    goals: 'package'
-                )
-            }
-        }
+        // stage ('Exec Maven') {
+        //     steps {
+        //         rtMavenRun (
+        //             tool: 'MAVEN_TOOL', 
+        //             pom: 'pom.xml',
+        //             goals: 'package'
+        //         )
+        //     }
+        // }
         stage ('Publish Build Info') {
             steps {
                 rtPublishBuildInfo (
@@ -50,7 +50,7 @@ pipeline {
                 sh """
                 docker image build -t spc:1.0 .
                 docker tag spc:1.0 soma3369.jfrog.io/spcimage/spc:1.0
-                docker push soma3369.jfrog.io/spcimage/spc:1.0"""  
+                docker push soma3369.jfrog.io/spcimage/spc:1.0 """  
             }
         }
     } 
