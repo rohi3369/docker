@@ -30,15 +30,16 @@ pipeline {
                     )
             }
         }
-        // stage ('Exec Maven') {
-        //     steps {
-        //         rtMavenRun (
-        //             tool: 'MAVEN_TOOL', 
-        //             pom: 'pom.xml',
-        //             goals: 'package'
-        //         )
-        //     }
-        // }
+        stage ('Exec Maven') {
+             steps {
+                 rtMavenRun (
+                     tool: 'MAVEN_TOOL', 
+                     pom: 'pom.xml',
+                     goals: 'clean install',
+                       deployerId: "MAVEN_DEPLOYER"
+                )
+             }
+         }
         stage ('Publish Build Info') {
             steps {
                 rtPublishBuildInfo (
