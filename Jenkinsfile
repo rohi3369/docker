@@ -49,9 +49,9 @@ pipeline {
          stage('docker image build'){
             steps{
                 sh """
-                docker image build -t spc:-$env.BUILD_ID .
-                docker tag spc:1.0 soma3369.jfrog.io/spcimage/spc:-$env.BUILD_ID
-                docker push soma3369.jfrog.io/spcimage/spc:-$env.BUILD_ID """  
+                docker image build -t spc:$env.BUILD_ID .
+                docker tag spc:1.0 soma3369.jfrog.io/spcimage/spc:$env.BUILD_ID
+                docker push soma3369.jfrog.io/spcimage/spc:$env.BUILD_ID """  
             }
         }
     } 
